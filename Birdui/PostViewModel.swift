@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+//import Combine
 
 class PostViewModel: ObservableObject {
   @Published var posts: [MediaPost] = []
@@ -23,5 +24,6 @@ class PostViewModel: ObservableObject {
   func addPost(post: MediaPost) {
       posts.append(post)
       posts = posts.sorted(by: { $0.timestamp > $1.timestamp })
+      print(posts)
   }
 }

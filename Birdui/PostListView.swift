@@ -10,7 +10,7 @@ import SwiftUI
 
 struct PostListView: View {
   
-  @ObservedObject var posts = PostViewModel()
+  @ObservedObject var listOfPosts = PostViewModel()
   @State var modalIsPresented = false
   
   var body: some View {
@@ -37,13 +37,22 @@ struct PostListView: View {
         Text("Create New Post")
       }
       .sheet(isPresented: $modalIsPresented) {
-        NewPostView(postHandler: PostViewModel())
+        NewPostView(postHandler: self.listOfPosts)
+      }
+
+      List {
+          ForEach(listOfPosts.posts) { post in
+              PostView(post: post)
+          }
       }
       
-      List(self.posts.posts.indices) { item in
-        PostView(post: self.posts.posts[item])
-      }
-      
+//      List(listOfPosts.posts.indices) { item in
+//        PostView(post: self.listOfPosts.posts[item])
+//      }
+//      List(listOfPosts.posts) { post in
+//        Text(post.userName)
+//      }
+
     }
   }
 }
