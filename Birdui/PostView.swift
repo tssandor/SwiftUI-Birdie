@@ -22,10 +22,18 @@ struct PostView: View {
           .frame(width: 80.0, height: 80.0)
         VStack(alignment: .leading) {
           Text(post.userName)
+          // Victoria, timestamp goes here
           Text("Second line")
         }
       }
+      // Victoria,
+      // Make sure the longer text fits on smaller displays
+      // Unwrap the optional properly
       Text(post.textBody!)
+      
+      // Victoria,
+      // We should make sure this image is displayed propery
+      // And also that it's unwrapped gracefully, because it's an optional
 //      GeometryReader { geo in
                       Image("octopus")
                         .resizable()
