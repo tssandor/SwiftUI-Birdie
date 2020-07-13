@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-//import Combine
 
 class PostViewModel: ObservableObject {
   @Published var posts: [MediaPost] = []
