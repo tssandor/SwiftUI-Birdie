@@ -20,32 +20,40 @@ struct PostView: View {
   
   var body: some View {
     
-    // TODO: This should look exactly like Birdie's table view cell.
-    // The post text is left-aligned below the mascot image.
-    // The image, if any, is horizontally centered in the view.
     VStack(alignment: .leading, spacing: 0) {
       HStack {
         Image("mascot_swift-badge").resizable()
-          .frame(width: 80.0, height: 80.0)
+          .frame(width: 60.0, height: 60.0)
         VStack(alignment: .leading) {
           Text(post.userName)
           Text(Self.dateFormatter.string(from: post.timestamp))
         }
       }
    
-      Text(post.textBody!)
-//        .frame(minWidth: 40, maxWidth: .infinity, minHeight: 40, alignment: .topLeading)
-        .padding()
-      //.alignmentGuide(.leading, computeValue: <#(ViewDimensions) -> CGFloat#>)// { d in d[.trailing]}
-   
-      if post.uiImage != nil {
-        Image(uiImage: post.uiImage!)
-          .resizable()
-          .aspectRatio(contentMode: .fit)
-          .border(Color.black, width: 2)
-
+      if post.textBody != nil {
+        Text(post.textBody!)
+          .multilineTextAlignment(.leading)
+          .padding(.top, 8.0)
       }
-      Spacer()
+      // Did use this instead of the simpler Text(post.textBody ?? "")
+      // Because if it's an empty string then the line is still there, and the image
+      // appears a tad too far from the timestamp row
+      
+      HStack(alignment: .center) {
+        if post.uiImage != nil {
+          Spacer()
+          Image(uiImage: post.uiImage!)
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: 180, height: 180, alignment: .center)
+          Spacer()
+        } else {
+          Text("")
+          // This is here because it creates a bit of space
+          // after the text if there's no image. Otherwise
+          // the text is too close to the list cell divider bar
+        }
+      }
     }
   }
 }
