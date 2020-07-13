@@ -11,38 +11,41 @@ import SwiftUI
 struct PostView: View {
   let post: MediaPost
   
+  static let dateFormatter: DateFormatter = {
+        let df = DateFormatter()
+        df.timeStyle = .short
+        df.dateStyle = .short
+        return df
+  }()
+  
   var body: some View {
     
     // TODO: This should look exactly like Birdie's table view cell.
     // The post text is left-aligned below the mascot image.
     // The image, if any, is horizontally centered in the view.
-    VStack(alignment: .leading) {
+    VStack(alignment: .leading, spacing: 0) {
       HStack {
         Image("mascot_swift-badge").resizable()
           .frame(width: 80.0, height: 80.0)
         VStack(alignment: .leading) {
           Text(post.userName)
-          // Victoria, timestamp goes here
-          Text("Second line")
+          Text(Self.dateFormatter.string(from: post.timestamp))
         }
       }
-      // Victoria,
-      // Make sure the longer text fits on smaller displays
-      // Unwrap the optional properly
+   
       Text(post.textBody!)
-      
-      // Victoria,
-      // We should make sure this image is displayed propery
-      // And also that it's unwrapped gracefully, because it's an optional
-//      GeometryReader { geo in
-                      Image("octopus")
-                        .resizable()
-                //        .scaledToFit()
-                //        .frame(width: 414.0)
-                //        .frame(height: 220.0)
-//                        .aspectRatio(contentMode: .fit)
-                        .frame(height: 200)
-//      }
+//        .frame(minWidth: 40, maxWidth: .infinity, minHeight: 40, alignment: .topLeading)
+        .padding()
+      //.alignmentGuide(.leading, computeValue: <#(ViewDimensions) -> CGFloat#>)// { d in d[.trailing]}
+   
+      if post.uiImage != nil {
+        Image(uiImage: post.uiImage!)
+          .resizable()
+          .aspectRatio(contentMode: .fit)
+          .border(Color.black, width: 2)
+
+      }
+      Spacer()
     }
   }
 }
@@ -50,7 +53,7 @@ struct PostView: View {
 struct PostView_Previews: PreviewProvider {
   static var previews: some View {
     PostView(post: MediaPost(textBody: "Went to the Aquarium today :]",
-      userName: "Audrey", timestamp: Date(timeIntervalSinceNow: -9876),
-      uiImage: UIImage(named: "octopus")))
+                             userName: "Audrey", timestamp: Date(timeIntervalSinceNow: -9876),
+                             uiImage: UIImage(named: "octopus")))
   }
 }

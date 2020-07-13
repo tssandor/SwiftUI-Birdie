@@ -18,41 +18,38 @@ struct PostListView: View {
     // but with only one button.
     VStack(alignment: .leading) {
       
+      ZStack {
+        HStack {
+          Image("mascot_swift-badge")
+            .resizable()
+            .frame(width: 80.0, height: 80.0)
+            .padding([.leading], 18)
+          Spacer()
+        }
+        Text("Home").font(.largeTitle)
+      }.frame(height: 90)
+      
       HStack {
-        Image("mascot_swift-badge")
-          .resizable()
-          .frame(width: 80.0, height: 80.0)
-
         Spacer()
-
-        Text("Home")
-          .multilineTextAlignment(.center)
-
-        Spacer()
-      }
-      
-      Button(
-        action: { self.modalIsPresented = true }
-      ) {
-        Text("Create New Post")
-      }
-      .sheet(isPresented: $modalIsPresented) {
-        NewPostView(postHandler: self.listOfPosts)
-      }
-
-      List {
-          ForEach(listOfPosts.posts) { post in
-              PostView(post: post)
+        Button(
+          action: { self.modalIsPresented = true }
+        ) {
+          HStack {
+            Image(systemName: "plus.circle")
+            Text("Create New Post").font(.callout)
           }
+        }
+        .sheet(isPresented: $modalIsPresented) {
+          NewPostView(postHandler: self.listOfPosts)
+        }
+        Spacer()
+      }.background(Color.clear)
+      List {
+        ForEach(listOfPosts.posts) { post in
+          PostView(post: post)
+          
+        }
       }
-      
-//      List(listOfPosts.posts.indices) { item in
-//        PostView(post: self.listOfPosts.posts[item])
-//      }
-//      List(listOfPosts.posts) { post in
-//        Text(post.userName)
-//      }
-
     }
   }
 }
